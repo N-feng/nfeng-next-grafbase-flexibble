@@ -1,6 +1,9 @@
 import "./globals.css";
+
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+
+import { QueryProvider } from "@/providers/query-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
@@ -15,7 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body suppressHydrationWarning>
           <Navbar />
           <main>
-            {children}
+            <QueryProvider>
+              {children}
+            </QueryProvider>
           </main>
           <Footer />
         </body>

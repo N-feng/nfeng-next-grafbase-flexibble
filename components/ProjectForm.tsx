@@ -37,9 +37,11 @@ const ProjectForm = ({ type,
     };
 
     const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log('e: ', e);
         e.preventDefault();
 
         const file = e.target.files?.[0];
+        console.log('file: ', file);
 
         if (!file) return;
 
@@ -55,6 +57,7 @@ const ProjectForm = ({ type,
 
         reader.onload = () => {
             const result = reader.result as string;
+            console.log('result: ', result);
 
             handleStateChange("image", result)
         };

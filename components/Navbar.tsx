@@ -13,13 +13,9 @@ import ProfileMenu from "./ProfileMenu";
 import { auth } from "@clerk/nextjs/server";
 
 const Navbar = async () => {
-  const session = await getCurrentUser()
-  console.log('session: ', session);
+  // const session = await getCurrentUser()
   const { userId, sessionClaims } = auth();
-  console.log('sessionClaims: ', sessionClaims);
-  console.log('userId: ', userId);
   const role = (sessionClaims?.metadata as { role?: string })?.role;
-  console.log('role: ', role);
 
   return (
     <nav className='flexBetween navbar'>

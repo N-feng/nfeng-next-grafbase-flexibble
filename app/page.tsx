@@ -1,8 +1,13 @@
+// "use client";
+
 import { ProjectInterface } from "@/common.types";
 import Categories from "@/components/Categories";
 import LoadMore from "@/components/LoadMore";
 import ProjectCard from "@/components/ProjectCard";
+import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { fetchAllProjects } from "@/lib/actions";
+import prismadb from "@/lib/prismadb";
+import { Loader2 } from "lucide-react";
 
 type SearchParams = {
   category?: string | null;
@@ -30,18 +35,60 @@ export const dynamicParams = true;
 export const revalidate = 0;
 
 const Home = async ({ searchParams: { category, endcursor } }: Props) => {
+  console.log('category: ', category);
+  // const projectsQuery = useGetProjects()
   // const data = await fetchAllProjects(category, endcursor) as ProjectSearch
 
+  const projects = await prismadb.project.findMany({
+    where: {
+      // userId: params.storeId,
+      category: category || '',
+    },
+    include: {
+      images: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    }
+  });
+  console.log('projects: ', projects);
+
+  const projectsToDisplay = projects.map((item) => ({
+    node: {
+      ...item,
+      image: item.images[0].url,
+      createdBy: {
+        name: "",
+        avatarUrl: "",
+        id: "",
+        email: "",
+      }
+    }
+  }))
+
   // const projectsToDisplay = data?.projectSearch?.edges || [];
+  console.log('projectsToDisplay: ', projectsToDisplay);
 
-  // if (projectsToDisplay.length === 0) {
+  if (projectsToDisplay.length === 0) {
+    return (
+      <section className="flexStart flex-col paddings">
+        <Categories />
+
+        <p className="no-result-text text-center">No projects found, go create some first.</p>
+      </section>
+    )
+  }
+
+  // if (projectsQuery.isLoading) {
   //   return (
-  //     <section className="flexStart flex-col paddings">
-  //       <Categories />
-
-  //       <p className="no-result-text text-center">No projects found, go create some first.</p>
-  //     </section>
-  //   )
+  //     <div className="flex-col">
+  //       <div className="flex-1 space-y-4 p-8 pt-6">
+  //         <div className="w-full h-[500px] flex items-center justify-center">
+  //           <Loader2 className="animate-spin size-6 text-slate-300" />
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
   // }
 
   return (
@@ -49,7 +96,7 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
       <Categories />
 
       <section className="projects-grid">
-        {/* {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
+        {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
           <ProjectCard
             key={`${node?.id}`}
             id={node?.id}
@@ -59,7 +106,7 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
             avatarUrl={node?.createdBy.avatarUrl}
             userId={node?.createdBy.id}
           />
-        ))} */}
+        ))}
       </section>
 
       {/* <LoadMore 
