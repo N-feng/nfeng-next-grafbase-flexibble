@@ -1,4 +1,4 @@
-import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 
 import Image from "next/image";
@@ -49,6 +49,10 @@ const Navbar = async () => {
         ) : (
           <AuthProviders />
         )} */}
+
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
         <ClerkLoaded>
           <UserButton afterSignOutUrl="/" />
         </ClerkLoaded>
@@ -56,13 +60,13 @@ const Navbar = async () => {
           <Loader2 className="animate-spin text-slate-400 size-8" />
         </ClerkLoading>
 
-        {role === 'admin' && (
-          <>
+        {/* {role === 'admin' && (
+          <> */}
             <Link href="/create-project">
               <Button title='Share work' />
             </Link>
-          </>
-        )}
+          {/* </>
+        )} */}
       </div>
     </nav>
   );

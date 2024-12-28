@@ -7,10 +7,11 @@ import ProjectCard from "@/components/ProjectCard";
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { fetchAllProjects } from "@/lib/actions";
 import prismadb from "@/lib/prismadb";
+import { currentUser } from "@clerk/nextjs/server";
 import { Loader2 } from "lucide-react";
 
 type SearchParams = {
-  category?: string | null;
+  category?: string | undefined;
   endcursor?: string | null;
 }
 
@@ -35,14 +36,14 @@ export const dynamicParams = true;
 export const revalidate = 0;
 
 const Home = async ({ searchParams: { category, endcursor } }: Props) => {
-  console.log('category: ', category);
+  // console.log('category: ', category);
   // const projectsQuery = useGetProjects()
   // const data = await fetchAllProjects(category, endcursor) as ProjectSearch
 
   const projects = await prismadb.project.findMany({
     where: {
       // userId: params.storeId,
-      category: category || '',
+      category: category,
     },
     include: {
       images: true,
@@ -51,7 +52,6 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
       createdAt: 'desc',
     }
   });
-  console.log('projects: ', projects);
 
   const projectsToDisplay = projects.map((item) => ({
     node: {
@@ -67,7 +67,6 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
   }))
 
   // const projectsToDisplay = data?.projectSearch?.edges || [];
-  console.log('projectsToDisplay: ', projectsToDisplay);
 
   if (projectsToDisplay.length === 0) {
     return (

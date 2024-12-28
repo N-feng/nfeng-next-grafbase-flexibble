@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { FormValues } from "@/app/create-project/components/project-form";
+import { FormValues } from "@/app/update-profile/components/profile-form";
 
-export const useCreateProject = () => {
+export const useEditProfile = () => {
   const queryClient = useQueryClient();
   const params = useParams();
   
@@ -14,24 +14,24 @@ export const useCreateProject = () => {
 
   const mutation = useMutation<any, Error, FormValues>({
     mutationFn: async (json) => {
-      console.log('get json when create project: ', json);
+      console.log('get json when update profile: ', json);
       // const response = await client.api.categories[":id"]["$patch"]({
       //   param: { id },
       //   json,
       // });
-      const {data} = await axios.post(`/api/projects/`, json);
-      console.log('create project data: ', data);
+      const {data} = await axios.post(`/api/profile/`, json);
+      console.log('update profile data: ', data);
       return data;
     },
     onSuccess: () => {
-      toast.success("Project updated");
+      toast.success("Profile updated");
       // queryClient.invalidateQueries({ queryKey: ["category", id] });
       // queryClient.invalidateQueries({ queryKey: ["categories"] });
       // queryClient.invalidateQueries({ queryKey: ["transactions"] });
       // queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: () => {
-      toast.error("Failed to update project");
+      toast.error("Failed to update profile");
     },
   });
 
