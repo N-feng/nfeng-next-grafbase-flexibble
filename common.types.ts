@@ -13,10 +13,12 @@ export interface ProjectInterface {
     title: string;
     description: string;
     image: string;
+    images: [];
     liveSiteUrl: string;
     githubUrl: string;
     category: string;
     id: string;
+    userId: string;
     createdBy: {
       name: string;
       email: string;

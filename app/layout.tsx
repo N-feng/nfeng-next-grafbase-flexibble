@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
+import { SheetProvider } from "@/providers/sheet-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main>
             <QueryProvider>
+              <SheetProvider />
               <ToastProvider />
               {children}
             </QueryProvider>

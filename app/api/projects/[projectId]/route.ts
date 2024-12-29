@@ -30,7 +30,7 @@ export async function GET(
       },
       include: {
         images: true,
-        // createdBy: true,
+        createdBy: true,
         // category: true,
         // size: true,
         // kitchen: true,

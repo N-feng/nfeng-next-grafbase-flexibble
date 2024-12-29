@@ -1,5 +1,6 @@
 "use client";
 
+import { useDetailProject } from "@/features/projects/hooks/use-detail-project";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ type Props = {
 const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
     const [randomLikes, setRandomLikes] = useState(0);
     const [randomViews, setRandomViews] = useState('');
+    const { onOpen } = useDetailProject()
 
     useEffect(() => {
         setRandomLikes(Math.floor(Math.random() * 10000))
@@ -25,7 +27,8 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
 
     return (
         <div className="flexCenter flex-col rounded-2xl drop-shadow-card">
-            <Link href={`/project/${id}`} className="flexCenter group relative w-full h-full">
+            {/* <Link href={`/project/${id}`} className="flexCenter group relative w-full h-full"> */}
+            <a onClick={() => onOpen(id)} className="flexCenter group relative w-full h-full cursor-pointer">
                 <Image
                     src={image}
                     width={414}
@@ -37,7 +40,8 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
                 <div className="hidden group-hover:flex profile_card-title">
                     <p className="w-full">{title}</p>
                 </div>
-            </Link>
+            </a>
+            {/* </Link> */}
 
             <div className="flexBetween w-full px-2 mt-3 font-semibold text-sm">
                 <Link href={`/profile/${userId}`}>

@@ -51,13 +51,13 @@ const Project = ({ params: { id } }: { params: { id: string } }) => {
             <section className="flexBetween gap-y-8 max-w-4xl max-xs:flex-col w-full">
                 <div className="flex-1 flex items-start gap-5 w-full max-xs:flex-col">
                     <Link href={renderLink()}>
-                        {/* <Image
+                        <Image
                             src={projectDetails?.createdBy?.avatarUrl}
                             width={50}
                             height={50}
                             alt="profile"
                             className="rounded-full"
-                        /> */}
+                        />
                     </Link>
 
                     <div className="flex-1 flexStart flex-col gap-1">
@@ -122,13 +122,13 @@ const Project = ({ params: { id } }: { params: { id: string } }) => {
             <section className="flexCenter w-full gap-8 mt-28">
                 <span className="w-full h-0.5 bg-light-white-200" />
                 <Link href={renderLink()} className="min-w-[82px] h-[82px]">
-                    {/* <Image
+                    <Image
                         src={projectDetails?.createdBy?.avatarUrl}
                         className="rounded-full"
                         width={82}
                         height={82}
                         alt="profile image"
-                    /> */}
+                    />
                 </Link>
                 <span className="w-full h-0.5 bg-light-white-200" />
             </section>
