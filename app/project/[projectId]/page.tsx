@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"
 import Link from "next/link"
 
@@ -7,31 +9,55 @@ import Modal from "@/components/Modal"
 import ProjectActions from "@/components/ProjectActions"
 import RelatedProjects from "@/components/RelatedProjects"
 import { ProjectInterface } from "@/common.types"
+import { useGetProject } from "@/features/projects/api/use-get-project"
+import { Loader2 } from "lucide-react";
+import { useAuth } from "@clerk/clerk-react";
 
-const Project = async ({ params: { id } }: { params: { id: string } }) => {
-    const session = await getCurrentUser()
-    const result = await getProjectDetails(id) as { project?: ProjectInterface}
+const Project = ({ params: { id } }: { params: { id: string } }) => {
+  const projectQuery = useGetProject()
+  const defaultValues = projectQuery.data
+      ? projectQuery.data
+      : null;
 
-    if (!result?.project) return (
+  const { userId } = useAuth();
+  console.log('userId: ', userId);
+  
+    const isLoading = projectQuery.isLoading;
+    // const session = await getCurrentUser()
+    // const result = await getProjectDetails(id) as { project?: ProjectInterface}
+
+    // if (!result?.project) return (
+    //     <p className="no-result-text">Failed to fetch project info</p>
+    // )
+
+    if (!defaultValues) return (
         <p className="no-result-text">Failed to fetch project info</p>
     )
 
-    const projectDetails = result?.project
+    // const projectDetails = result?.project
+
+    const projectDetails = defaultValues
 
     const renderLink = () => `/profile/${projectDetails?.createdBy?.id}`
+
+    // if (isLoading) return (
+    //   <div className="absolute inset-0 flex items-center justify-center">
+    //     <Loader2 className="size-4 animate-spin text-muted-foreground" />
+    //   </div>
+    // )
 
     return (
         <Modal>
             <section className="flexBetween gap-y-8 max-w-4xl max-xs:flex-col w-full">
                 <div className="flex-1 flex items-start gap-5 w-full max-xs:flex-col">
                     <Link href={renderLink()}>
-                        <Image
+                        {/* <Image
                             src={projectDetails?.createdBy?.avatarUrl}
                             width={50}
                             height={50}
                             alt="profile"
                             className="rounded-full"
-                        />
+                        /> */}
                     </Link>
 
                     <div className="flex-1 flexStart flex-col gap-1">
@@ -50,7 +76,13 @@ const Project = async ({ params: { id } }: { params: { id: string } }) => {
                     </div>
                 </div>
 
-                {session?.user?.email === projectDetails?.createdBy?.email && (
+                {/* {session?.user?.email === projectDetails?.createdBy?.email && (
+                    <div className="flex justify-end items-center gap-2">
+                        <ProjectActions projectId={projectDetails?.id} />
+                    </div>
+                )} */}
+
+                {userId === projectDetails?.userId && (
                     <div className="flex justify-end items-center gap-2">
                         <ProjectActions projectId={projectDetails?.id} />
                     </div>
@@ -58,13 +90,17 @@ const Project = async ({ params: { id } }: { params: { id: string } }) => {
             </section>
 
             <section className="mt-14">
-                <Image
-                    src={`${projectDetails?.image}`}
+                {projectDetails?.images.map((item: any) => (
+                  <Image
+                    key={item.id}
+                    src={`${item.url}`}
                     className="object-cover rounded-2xl"
                     width={1064}
                     height={798}
                     alt="poster"
-                />
+                  />
+                ))}
+                
             </section>
 
             <section className="flexCenter flex-col mt-20">
@@ -86,18 +122,18 @@ const Project = async ({ params: { id } }: { params: { id: string } }) => {
             <section className="flexCenter w-full gap-8 mt-28">
                 <span className="w-full h-0.5 bg-light-white-200" />
                 <Link href={renderLink()} className="min-w-[82px] h-[82px]">
-                    <Image
+                    {/* <Image
                         src={projectDetails?.createdBy?.avatarUrl}
                         className="rounded-full"
                         width={82}
                         height={82}
                         alt="profile image"
-                    />
+                    /> */}
                 </Link>
                 <span className="w-full h-0.5 bg-light-white-200" />
             </section>
 
-            <RelatedProjects userId={projectDetails?.createdBy?.id} projectId={projectDetails?.id} />
+            {/* <RelatedProjects userId={projectDetails?.createdBy?.id} projectId={projectDetails?.id} /> */}
         </Modal>
     )
 }

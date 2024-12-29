@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/session";
 import Modal from "@/components/Modal";
 // import ProjectForm from "@/components/ProjectForm";
-import ProfileForm from "./components/profile-form";
+import ProfileForm from "../../components/profile-form";
 
 const CreateProject = async () => {
   // const session = await getCurrentUser();

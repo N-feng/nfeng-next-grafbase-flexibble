@@ -8,10 +8,6 @@ export const useGetProfile = () => {
   console.log('params: ', params);
 
   const userId = params.id;
-  const searchParams = useSearchParams();
-  console.log('searchParams: ', searchParams);
-  const profileId = searchParams.get("profileId") || "";
-  console.log('profileId: ', profileId);
 
   const query = useQuery({
     enabled: !!userId,

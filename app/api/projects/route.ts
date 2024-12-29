@@ -35,6 +35,16 @@ export async function POST(
       return new NextResponse("Images are required", { status: 400 });
     }
 
+    const profileByUserId = await prismadb.profile.findFirst({
+      where: {
+        userId
+      }
+    });
+
+    if (!profileByUserId) {
+      return new NextResponse("Unauthorized", { status: 405 });
+    }
+
     const product = await prismadb.project.create({
       data: {
         title,
@@ -43,6 +53,7 @@ export async function POST(
         githubUrl,
         category,
         userId,
+        profileId: profileByUserId.id,
         images: {
           createMany: {
             data: [
@@ -77,7 +88,6 @@ export async function GET(
     const { userId } = auth();
     const { searchParams } = new URL(req.url)
     const category = searchParams.get('category') || undefined;
-    console.log('category: ', category);
 
     // if (!params.storeId) {
     //   return new NextResponse("Store id is required", { status: 400 });
@@ -85,11 +95,12 @@ export async function GET(
 
     const projects = await prismadb.project.findMany({
       where: {
-        userId: params.storeId,
+        // userId: params.storeId,
         category,
       },
       include: {
         images: true,
+        createdBy: true,
       },
       orderBy: {
         createdAt: 'desc',

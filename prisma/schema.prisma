@@ -30,9 +30,9 @@ model Profile {
 
 model Project {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  // userId        String        @db.ObjectId // Foreign Key to Store
-  userId        String        @db.ObjectId // Foreign Key to Store
-  createdBy     Profile       @relation("UserToProject", fields: [userId], references: [id])    
+  userId        String        
+  profileId     String        @db.ObjectId // Foreign Key to Store
+  createdBy     Profile       @relation("UserToProject", fields: [profileId], references: [id])    
   title         String        
   description   String        
   // image         String
@@ -43,7 +43,7 @@ model Project {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  @@index([userId])
+  @@index([profileId])
 }
 
 model Image {

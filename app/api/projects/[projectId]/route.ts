@@ -11,26 +11,27 @@ export async function GET(
       sizeId: string,
       kitchenId: string,
       cuisineId: string,
-      productId: string, 
+      projectId: string, 
     } 
   }
 ) {
   try {
-    if (!params.productId) {
-      return new NextResponse("Product id is required", { status: 400 });
+    if (!params.projectId) {
+      return new NextResponse("Project id is required", { status: 400 });
     }
 
-    const product = await prismadb.product.findUnique({
+    const project = await prismadb.project.findUnique({
       where: {
-        categoryId: params.categoryId,
+        // categoryId: params.categoryId,
         // sizeId: params.sizeId,
-        kitchenId: params.kitchenId,
-        cuisineId: params.cuisineId,
-        id: params.productId,
+        // kitchenId: params.kitchenId,
+        // cuisineId: params.cuisineId,
+        id: params.projectId,
       },
       include: {
         images: true,
-        category: true,
+        // createdBy: true,
+        // category: true,
         // size: true,
         // kitchen: true,
         // cuisine: true,
@@ -38,9 +39,9 @@ export async function GET(
       }
     });
   
-    return NextResponse.json(product);
+    return NextResponse.json(project);
   } catch (error) {
-    console.log('[PRODUCT_GET]', error);
+    console.log('[PROJECT_GET]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };
@@ -112,62 +113,49 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { productId: string, storeId: string } }
+  { params }: { params: { projectId: string } }
 ) {
   try {
+    console.log('params: ', params);
     const { userId } = auth();
-
-    const body = await req.json();
-
-    const { name, chineseName, price,
-      energyKcal,
-      energyKj,
-      carbohydrates,
-      sugars,
-      dietaryFiber,
-      fat,
-      protein,
-      vitaminA,
-      thiamineB1,
-      riboflavinB2,
-      niacinB3,
-      pantothenicAcidB5,
-      vitaminB6,
-      folateB9,
-      vitaminC,
-      vitaminE,
-      vitaminK,
-      calcium,
-      iron,
-      magnesium,
-      manganese,
-      phosphorus,
-      potassium,
-      sodium,
-      zinc, categoryId, images, colorId, sizeId, isFeatured, isArchived } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.productId) {
-      return new NextResponse("Product id is required", { status: 400 });
+    const body = await req.json();
+
+    const { 
+      title,
+      description, 
+      liveSiteUrl, 
+      githubUrl, 
+      category, 
+      images 
+    } = body;
+
+    if (!userId) {
+      return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!name) {
-      return new NextResponse("Name is required", { status: 400 });
+    if (!params.projectId) {
+      return new NextResponse("Project id is required", { status: 400 });
+    }
+
+    if (!title) {
+      return new NextResponse("Title is required", { status: 400 });
+    }
+
+    if (!description) {
+      return new NextResponse("Description is required", { status: 400 });
     }
 
     if (!images || !images.length) {
       return new NextResponse("Images are required", { status: 400 });
     }
 
-    if (!price) {
-      return new NextResponse("Price is required", { status: 400 });
-    }
-
-    if (!categoryId) {
-      return new NextResponse("Category id is required", { status: 400 });
+    if (!category) {
+      return new NextResponse("Category is required", { status: 400 });
     }
 
     // if (!colorId) {
@@ -178,48 +166,38 @@ export async function PATCH(
     //   return new NextResponse("Size id is required", { status: 400 });
     // }
 
-    const storeByUserId = await prismadb.store.findFirst({
+    const profileByUserId = await prismadb.profile.findFirst({
       where: {
-        id: params.storeId,
         userId
       }
     });
 
-    if (!storeByUserId) {
+    if (!profileByUserId) {
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    await prismadb.product.update({
+    await prismadb.project.update({
       where: {
-        id: params.productId
+        id: params.projectId
       },
       data: {
-        name,
-        chineseName,
-        price,
-        categoryId,
+        title,
+        description,
         // colorId,
         // sizeId,
+        category,
+        profileId: profileByUserId.id,
         images: {
           deleteMany: {},
         },
-        attribute: {
-          deleteMany: {},
-        },
-        vitamins: {
-          deleteMany: {},
-        },
-        minerals: {
-          deleteMany: {},
-        },
-        isFeatured,
-        isArchived,
+        liveSiteUrl,
+        githubUrl,
       },
     });
 
-    const product = await prismadb.product.update({
+    const project = await prismadb.project.update({
       where: {
-        id: params.productId
+        id: params.projectId
       },
       data: {
         images: {
@@ -229,58 +207,12 @@ export async function PATCH(
             ],
           },
         },
-        attribute: {
-          createMany: {
-            data: [{
-              energyKcal,
-              energyKj,
-              carbohydrates,
-              sugars,
-              dietaryFiber,
-              fat,
-              protein,
-              storeId: params.storeId
-            }]
-          }
-        },
-        vitamins: {
-          createMany: {
-            data: [{
-              vitaminA,
-              thiamineB1,
-              riboflavinB2,
-              niacinB3,
-              pantothenicAcidB5,
-              vitaminB6,
-              folateB9,
-              vitaminC,
-              vitaminE,
-              vitaminK,
-              storeId: params.storeId
-            }]
-          }
-        },
-        minerals: {
-          createMany: {
-            data: [{
-              calcium,
-              iron,
-              magnesium,
-              manganese,
-              phosphorus,
-              potassium,
-              sodium,
-              zinc,
-              storeId: params.storeId
-            }]
-          }
-        },
       },
     })
   
-    return NextResponse.json(product);
+    return NextResponse.json(project);
   } catch (error) {
-    console.log('[PRODUCT_PATCH]', error);
+    console.log('[PROJECT_PATCH]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 };

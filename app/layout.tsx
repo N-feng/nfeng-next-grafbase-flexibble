@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
+import { ToastProvider } from "@/providers/toast-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
@@ -20,11 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main>
             <QueryProvider>
+              <ToastProvider />
               {children}
             </QueryProvider>
           </main>
+          {/* <Toaster /> */}
           <Footer />
-          <Toaster />
         </body>
       </html>
     </ClerkProvider>

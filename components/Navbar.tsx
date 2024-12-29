@@ -30,9 +30,12 @@ const Navbar = async () => {
         </Link>
         <ul className='xl:flex hidden text-small gap-7'>
           {NavLinks.map((link) => (
-            <Link href={link.href} key={link.text}>
+            // <Link href={link.href} key={link.text}>
+            //   {link.text}
+            // </Link>
+            <a key={link.text}>
               {link.text}
-            </Link>
+            </a>
           ))}
         </ul>
       </div>

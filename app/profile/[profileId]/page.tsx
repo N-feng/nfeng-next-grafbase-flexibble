@@ -6,7 +6,7 @@ import ProfilePage from '@/components/ProfilePage'
 import { useGetProfile } from '@/features/profile/api/use-get-profile';
 import { Loader2 } from 'lucide-react';
 import Modal from '@/components/Modal';
-import ProfileForm from '@/app/update-profile/components/profile-form';
+import ProfileForm from '@/components/profile-form';
 
 type Props = {
     params: {
