@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 
-import { useDetailProject } from "@/features/projects/hooks/use-detail-project";
+import { useEditProject } from "@/features/projects/hooks/use-edit-project";
 import { useGetProject } from "@/features/projects/api/use-get-project";
 
 import {
@@ -10,17 +10,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { ProjectDetail } from "@/features/projects/components/project-detail";
+import { ProjectForm } from "@/features/projects/components/project-form";
 
-export const DetailProjectSheet = () => {
-  const { id, isOpen, onClose } = useDetailProject();
-
+export const EditProjectSheet = () => {
+  const { id, isOpen, onClose } = useEditProject();
 
   const projectQuery = useGetProject(id)
   const defaultValues = projectQuery.data
       ? projectQuery.data
       : null;
-
 
   const isLoading = projectQuery.isLoading;
 
@@ -28,8 +26,8 @@ export const DetailProjectSheet = () => {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="space-y-4 h-full overflow-auto" side={"bottom"} style={{ maxHeight: '90%' }}>
         <SheetHeader>
-          <SheetTitle>Detail Project</SheetTitle>
-          <SheetDescription>View an existing project</SheetDescription>
+          <SheetTitle>Edit Project</SheetTitle>
+          <SheetDescription>Edit an existing project</SheetDescription>
         </SheetHeader>
 
         {isLoading ? (
@@ -37,8 +35,8 @@ export const DetailProjectSheet = () => {
               <Loader2 className="size-4 animate-spin text-muted-foreground" />
             </div>
           ) : (
-            <ProjectDetail
-              projectDetails={defaultValues}
+            <ProjectForm
+              initialData={defaultValues}
             />
           )}
       </SheetContent>

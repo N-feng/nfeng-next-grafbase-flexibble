@@ -3,6 +3,8 @@
 import { useMountedState } from "react-use";
 
 import { DetailProjectSheet } from "@/features/projects/components/detail-project-sheet";
+import { EditProjectSheet } from "@/features/projects/components/edit-project-sheet";
+import { NewProjectSheet } from "@/features/projects/components/new-project-sheet";
 
 export const SheetProvider = () => {
   const isMounted = useMountedState();
@@ -12,6 +14,8 @@ export const SheetProvider = () => {
   return (
     <>
       <DetailProjectSheet />
+      <EditProjectSheet />
+      <NewProjectSheet />
     </>
   );
 };

@@ -96,7 +96,7 @@ export async function GET(
     const projects = await prismadb.project.findMany({
       where: {
         // userId: params.storeId,
-        category,
+        category: category,
       },
       include: {
         images: true,

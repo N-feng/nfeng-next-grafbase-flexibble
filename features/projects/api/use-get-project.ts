@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useGetProject = (projectId?: string) => {
-  console.log('projectId: ', projectId);
   // const params = useParams();
 
   // const projectId = params.projectId;

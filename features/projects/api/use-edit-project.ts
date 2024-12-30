@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { FormValues } from "@/components/project-form";
+import { FormValues } from "@/features/projects/components/project-form";
 
 export const useEditProject = () => {
   const queryClient = useQueryClient();

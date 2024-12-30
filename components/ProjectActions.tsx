@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { deleteProject, fetchToken } from '@/lib/actions'
+import { useDetailProject } from '@/features/projects/hooks/use-detail-project'
+import { useEditProject } from '@/features/projects/hooks/use-edit-project'
 
 type Props = {
     projectId: string
@@ -14,7 +16,8 @@ type Props = {
 const ProjectActions = ({ projectId }: Props) => {
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
     const router = useRouter()
-
+    const { onClose } = useDetailProject()
+    const { onOpen } = useEditProject()
     
     const handleDeleteProject = async () => {
         setIsDeleting(true)
@@ -32,11 +35,18 @@ const ProjectActions = ({ projectId }: Props) => {
         }
     }
 
+    const handleClick = () => {
+      onClose()
+      onOpen(projectId)
+    }
+
     return (
         <>
-            <Link href={`/edit-project/${projectId}`} className="flexCenter edit-action_btn">
-                <Image src="/pencile.svg" width={15} height={15} alt="edit" />
-            </Link>
+            {/* <Link href={`/edit-project/${projectId}`} className="flexCenter edit-action_btn"> */}
+            <a onClick={handleClick} className="flexCenter edit-action_btn cursor-pointer">
+              <Image src="/pencile.svg" width={15} height={15} alt="edit" />
+            </a>
+            {/* </Link> */}
 
             <button
                 type="button"

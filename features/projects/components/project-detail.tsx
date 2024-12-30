@@ -13,14 +13,16 @@ export const ProjectDetail = ({
   projectDetails: ProjectInterface
 }) => {
 
-  const renderLink = () => `/profile/${projectDetails?.createdBy?.id}`
-
   const { userId } = useAuth();
-  console.log('userId: ', userId);
+
+  if (!projectDetails) return (
+    <p className="no-result-text">Failed to fetch project info</p>
+  )
+
+  const renderLink = () => `/profile/${projectDetails?.createdBy?.id}`;
 
   return (
     <>
-
       <section className="flexBetween gap-y-8 max-w-4xl1 max-xs:flex-col w-full">
         <div className="flex-1 flex items-start gap-5 w-full max-xs:flex-col">
           <Link href={renderLink()}>

@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
 import { useCreateProject } from '@/features/projects/api/use-create-project';
+import { useEditProject } from '@/features/projects/api/use-edit-project';
 
 const formSchema = z.object({
   images: z.object({ url: z.string() }).array().min(1),
@@ -73,13 +74,13 @@ export const ProjectForm = ({
     githubUrl: '',
     category: '',
   }
-  console.log('defaultValues: ', defaultValues);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
   
+  const projectMutation = useEditProject();
   const mutation = useCreateProject()
   
   const onSubmit = async (data: FormValues) => {
@@ -87,9 +88,13 @@ export const ProjectForm = ({
     const values = {
       ...data,
     }
-    mutation.mutate(values);
     try {
       setLoading(true);
+      if (initialData) {
+        projectMutation.mutate(values);
+      } else {
+        mutation.mutate(values);
+      }
     } catch (error: any) {
       toast.error('Something went wrong.');
     } finally {
@@ -99,13 +104,26 @@ export const ProjectForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flexStart form" style={{ paddingTop: '1rem' }}>
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">Title</FormLabel>
+              <FormControl>
+                <Input disabled={loading} placeholder="Project title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="images"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Images</FormLabel>
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">Images</FormLabel>
               <FormControl>
                 <ImageUpload 
                   value={field.value.map((image) => image.url)} 
@@ -120,23 +138,10 @@ export const ProjectForm = ({
         />
         <FormField
           control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input disabled={loading} placeholder="Project title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">Description</FormLabel>
               <FormControl>
                 <Input disabled={loading} placeholder="Project description" {...field} />
               </FormControl>
@@ -148,8 +153,8 @@ export const ProjectForm = ({
           control={form.control}
           name="liveSiteUrl"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Website URL</FormLabel>
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">Website URL</FormLabel>
               <FormControl>
                 <Input disabled={loading} placeholder="Project liveSiteUrl" {...field} />
               </FormControl>
@@ -161,8 +166,8 @@ export const ProjectForm = ({
           control={form.control}
           name="githubUrl"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>GitHub URL</FormLabel>
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">GitHub URL</FormLabel>
               <FormControl>
                 <Input disabled={loading} placeholder="Project githubUrl" {...field} />
               </FormControl>
@@ -174,8 +179,8 @@ export const ProjectForm = ({
           control={form.control}
           name="category"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">Category</FormLabel>
               <FormControl>
                 <Input disabled={loading} placeholder="Project category" {...field} />
               </FormControl>
@@ -183,7 +188,7 @@ export const ProjectForm = ({
             </FormItem>
           )}
         />
-        <div className="flex items-center justify-between">
+        <div className="flexStart w-full flex items-center justify-between">
           <Button disabled={loading} className="ml-auto1" type="submit">
             {action}
           </Button>
@@ -193,4 +198,3 @@ export const ProjectForm = ({
   )
 }
 
-export default ProjectForm
