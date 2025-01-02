@@ -31,6 +31,11 @@ export async function GET(
         // kitchen: true,
         // cuisine: true,
         // color: true,
+        projects: {
+          include: {
+            images: true,
+          }
+        },
       }
     });
   

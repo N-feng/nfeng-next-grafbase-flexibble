@@ -5,9 +5,9 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/session";
 import Modal from "@/components/Modal";
 // import ProjectForm from "@/components/ProjectForm";
-import ProjectForm from "../../../features/projects/components/project-form";
 import { useGetProject } from "@/features/projects/api/use-get-project";
 import { Loader2 } from "lucide-react";
+import { ProjectForm } from "@/features/projects/components/project-form";
 
 const CreateProject = () => {
   const projectQuery = useGetProject()

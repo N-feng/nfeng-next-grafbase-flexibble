@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import { useEditProfile } from '@/features/profile/api/use-edit-profile';
+import { useEditProfile } from '@/features/profiles/api/use-edit-profile';
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -71,7 +71,6 @@ export const ProfileForm = ({
     githubUrl: '',
     linkedinUrl: '',
   }
-  console.log('defaultValues: ', defaultValues);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -81,7 +80,6 @@ export const ProfileForm = ({
   const mutation = useEditProfile()
   
   const onSubmit = async (data: FormValues) => {
-    console.log('data: ', data);
     const values = {
       ...data,
     }
@@ -97,7 +95,7 @@ export const ProfileForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flexStart form">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flexStart form" style={{ paddingTop: '1rem' }}>
         <FormField
           control={form.control}
           name="name"

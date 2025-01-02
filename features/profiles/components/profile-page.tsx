@@ -2,14 +2,28 @@ import { ProjectInterface, UserProfile } from '@/common.types'
 import Image from 'next/image'
 
 import Link from 'next/link'
-import Button from "./Button";
-import ProjectCard from './ProjectCard';
+import Button from "@/components/Button";
+import ProjectCard from '@/components/ProjectCard';
+import { useEditProfile } from '@/features/profiles/hooks/use-edit-profile';
+import { useDetailProfile } from '@/features/profiles/hooks/use-detail-profile';
+import { useAuth } from '@clerk/nextjs';
 
 type Props = {
     user: UserProfile;
 }
 
-const ProfilePage = ({ user }: Props) => (
+const ProfilePage = ({ user }: Props) => {
+  const { onOpen } = useEditProfile()
+  const { onClose } = useDetailProfile();
+
+  const { userId } = useAuth();
+
+  const handleClick = () => {
+    onClose()
+    onOpen(user.userId)
+  }
+  
+  return (
     <section className='flexCenter flex-col max-w-10xl w-full mx-auto paddings1'>
         <section className="flexBetween max-lg:flex-col gap-10 w-full">
             <div className='flex items-start flex-col w-full'>
@@ -27,6 +41,16 @@ const ProfilePage = ({ user }: Props) => (
                     <Link href={`mailto:${user?.email}`}>
                         <Button title="Hire Me" leftIcon="/email.svg" />
                     </Link>
+                    {userId === user?.userId && (
+                      <Button 
+                        title="Update" 
+                        leftIcon="/pencile.svg" 
+                        bgColor="bg-light-white-400 !w-max" 
+                        textColor="text-black-100"
+                        handleClick={handleClick}
+                      />
+                    )}
+                    
                 </div>
             </div>
 
@@ -69,6 +93,8 @@ const ProfilePage = ({ user }: Props) => (
             </div>
        </section>
    </section>
-)
+
+  )
+}
 
 export default ProfilePage

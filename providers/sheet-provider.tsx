@@ -6,6 +6,10 @@ import { DetailProjectSheet } from "@/features/projects/components/detail-projec
 import { EditProjectSheet } from "@/features/projects/components/edit-project-sheet";
 import { NewProjectSheet } from "@/features/projects/components/new-project-sheet";
 
+import { DetailProfileSheet } from "@/features/profiles/components/detail-profile-sheet";
+import { EditProfileSheet } from "@/features/profiles/components/edit-profile-sheet";
+import { NewProfileSheet } from "@/features/profiles/components/new-profile-sheet";
+
 export const SheetProvider = () => {
   const isMounted = useMountedState();
 
@@ -16,6 +20,10 @@ export const SheetProvider = () => {
       <DetailProjectSheet />
       <EditProjectSheet />
       <NewProjectSheet />
+
+      <DetailProfileSheet />
+      <EditProfileSheet />
+      <NewProfileSheet />
     </>
   );
 };

@@ -19,16 +19,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ClerkProvider>
       <html lang='en'>
         <body suppressHydrationWarning>
-          <Navbar />
-          <main>
-            <QueryProvider>
+          <QueryProvider>
+            <Navbar />
+            <main>
               <SheetProvider />
               <ToastProvider />
               {children}
-            </QueryProvider>
-          </main>
-          {/* <Toaster /> */}
-          <Footer />
+            </main>
+            {/* <Toaster /> */}
+            <Footer />
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>

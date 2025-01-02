@@ -8,9 +8,13 @@ import ProjectActions from "@/components/ProjectActions"
 import { ProjectInterface } from "@/common.types";
 
 export const ProjectDetail = ({
-  projectDetails
+  projectDetails,
+  handleProfile,
+  handleProject,
 }: {
-  projectDetails: ProjectInterface
+  projectDetails: ProjectInterface,
+  handleProfile: (userId: string) => void,
+  handleProject: (category: string) => void,
 }) => {
 
   const { userId } = useAuth();
@@ -25,7 +29,8 @@ export const ProjectDetail = ({
     <>
       <section className="flexBetween gap-y-8 max-w-4xl1 max-xs:flex-col w-full">
         <div className="flex-1 flex items-start gap-5 w-full max-xs:flex-col">
-          <Link href={renderLink()}>
+          {/* <Link href={renderLink()}> */}
+          <a className="cursor-pointer" onClick={() => handleProfile(projectDetails?.createdBy?.userId)}>
               <Image
                   src={projectDetails?.createdBy?.avatarUrl}
                   width={50}
@@ -33,20 +38,27 @@ export const ProjectDetail = ({
                   alt="profile"
                   className="rounded-full"
               />
-          </Link>
+          </a>
+          {/* </Link> */}
 
           <div className="flex-1 flexStart flex-col gap-1">
               <p className="self-start text-lg font-semibold">
                   {projectDetails?.title}
               </p>
               <div className="user-info">
-                  <Link href={renderLink()}>
+                  {/* <Link href={renderLink()}> */}
+                  <a className="cursor-pointer" onClick={() => handleProfile(projectDetails?.createdBy?.userId)}>
                       {projectDetails?.createdBy?.name}
-                  </Link>
+                  </a>
+                      
+                  {/* </Link> */}
                   <Image src="/dot.svg" width={4} height={4} alt="dot" />
-                  <Link href={`/?category=${projectDetails.category}`} className="text-primary-purple font-semibold"> 
-                      {projectDetails?.category}
-                  </Link>
+                  {/* <Link href={`/?category=${projectDetails.category}`} className="text-primary-purple font-semibold">  */}
+                  <a className="text-primary-purple font-semibold cursor-pointer" onClick={() => handleProject(projectDetails?.category)}>
+                    {projectDetails?.category}
+                  </a>
+                      
+                  {/* </Link> */}
               </div>
           </div>
         </div>
@@ -96,7 +108,8 @@ export const ProjectDetail = ({
 
       <section className="flexCenter w-full gap-8 mt-28">
           <span className="w-full h-0.5 bg-light-white-200" />
-          <Link href={renderLink()} className="min-w-[82px] h-[82px]">
+          {/* <Link href={renderLink()} className="min-w-[82px] h-[82px]"> */}
+          <a className="min-w-[82px] h-[82px] cursor-pointer" onClick={() => handleProfile(projectDetails?.createdBy?.userId)}>
               <Image
                   src={projectDetails?.createdBy?.avatarUrl}
                   className="rounded-full"
@@ -104,7 +117,8 @@ export const ProjectDetail = ({
                   height={82}
                   alt="profile image"
               />
-          </Link>
+          </a>
+          {/* </Link> */}
           <span className="w-full h-0.5 bg-light-white-200" />
       </section>
     </>

@@ -21,7 +21,7 @@ type ProjectSearch = {
   },
 }
 
-const ProjectsList = () => {
+const ProjectPage = () => {
   const params = useSearchParams();
   const category = params.get("category") || "";
 
@@ -73,7 +73,8 @@ const ProjectsList = () => {
             title={node?.title}
             name={node?.createdBy.name}
             avatarUrl={node?.createdBy.avatarUrl}
-            userId={node?.createdBy.id}
+            // userId={node?.createdBy.id}
+            userId={node?.createdBy.userId}
           />
         ))}
       </section>
@@ -88,4 +89,4 @@ const ProjectsList = () => {
   )
 }
 
-export default ProjectsList;
+export default ProjectPage;

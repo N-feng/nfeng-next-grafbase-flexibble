@@ -2,7 +2,7 @@ import { ProjectInterface } from "@/common.types";
 import Categories from "@/components/Categories";
 import LoadMore from "@/components/LoadMore";
 import ProjectCard from "@/components/ProjectCard";
-import ProjectsList from "@/components/projects-list";
+import ProjectPage from "@/features/projects/components/project-page";
 import { fetchAllProjects } from "@/lib/actions";
 
 type SearchParams = {
@@ -38,7 +38,7 @@ const Home = ({ searchParams: { category, endcursor } }: Props) => {
 
   return (
     <>
-      <ProjectsList />
+      <ProjectPage />
     </>
   )
 };

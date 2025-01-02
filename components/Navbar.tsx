@@ -14,7 +14,10 @@ import Button from "./Button";
 import ProfileMenu from "./ProfileMenu";
 import { auth } from "@clerk/nextjs/server";
 import { useAuth, useUser } from "@clerk/clerk-react";
+
 import { useNewProject } from "@/features/projects/hooks/use-new-project";
+import { useGetProfile } from "@/features/profiles/api/use-get-profile";
+import { useNewProfile } from "@/features/profiles/hooks/use-new-profile";
 
 const Navbar = () => {
   // const session = await getCurrentUser()
@@ -23,13 +26,23 @@ const Navbar = () => {
     
   } = useAuth();
 
-  const { isLoaded, user } = useUser()
+  const { isLoaded, user } = useUser();
+  const profileQuery = useGetProfile(user?.id);
+  const defaultValues = profileQuery.data
+    ? profileQuery.data
+    : null;
+
   // const role = (sessionClaims?.metadata as { role?: string })?.role;
   const role = (user?.publicMetadata as { role?: string })?.role;
-  const { onOpen } = useNewProject();
+  const { onOpen: onOpenProject } = useNewProject();
+  const { onOpen: onOpenProfile } = useNewProfile();
 
   const handleClick = () => {
-    onOpen()
+    if (!defaultValues) {
+      onOpenProfile()
+    } else {
+      onOpenProject()
+    }
   }
 
   return (

@@ -6,11 +6,11 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { FormValues } from "@/features/projects/components/project-form";
 
-export const useEditProject = () => {
+export const useEditProject = (projectId: string) => {
   const queryClient = useQueryClient();
   const params = useParams();
   
-  const projectId = params.projectId;
+  // const projectId = params.projectId;
 
   const mutation = useMutation<any, Error, FormValues>({
     mutationFn: async (json) => {

@@ -3,10 +3,10 @@
 import { getUserProjects } from '@/lib/actions'
 import ProfilePage from '@/components/ProfilePage'
 // import { UserProfile } from '@/common.types';
-import { useGetProfile } from '@/features/profile/api/use-get-profile';
+import { useGetProfile } from '@/features/profiles/api/use-get-profile';
 import { Loader2 } from 'lucide-react';
 import Modal from '@/components/Modal';
-import ProfileForm from '@/components/profile-form';
+import ProfileForm from '@/features/profiles/components/profile-form';
 
 type Props = {
     params: {

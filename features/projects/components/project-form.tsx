@@ -18,9 +18,17 @@ import {
   FormMessage 
 } from '@/components/ui/form';
 import { Input } from "@/components/ui/input";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue
+} from "@/components/ui/select";
 import { Button } from '@/components/ui/button';
 import { useCreateProject } from '@/features/projects/api/use-create-project';
 import { useEditProject } from '@/features/projects/api/use-edit-project';
+import { categoryFilters } from '@/constant';
 
 const formSchema = z.object({
   images: z.object({ url: z.string() }).array().min(1),
@@ -67,6 +75,7 @@ export const ProjectForm = ({
     ...initialData,
   //   price: parseFloat(String(initialData?.price)),
   } : {
+    id: '',
     images: [],
     title: '',
     description: '',
@@ -80,13 +89,13 @@ export const ProjectForm = ({
     defaultValues
   });
   
-  const projectMutation = useEditProject();
+  const projectMutation = useEditProject(defaultValues.id);
   const mutation = useCreateProject()
   
   const onSubmit = async (data: FormValues) => {
-    console.log('data: ', data);
     const values = {
       ...data,
+      // id: defaultValues.id
     }
     try {
       setLoading(true);
@@ -175,7 +184,7 @@ export const ProjectForm = ({
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
@@ -184,6 +193,28 @@ export const ProjectForm = ({
               <FormControl>
                 <Input disabled={loading} placeholder="Project category" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        /> */}
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem className="flexStart flex-col w-full gap-4">
+              <FormLabel className="w-full text-gray-100">Category</FormLabel>
+              <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue defaultValue={field.value} placeholder="Select a category" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categoryFilters.map((category) => (
+                    <SelectItem key={category} value={category}>{category}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

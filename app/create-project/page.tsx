@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/session";
 import Modal from "@/components/Modal";
-import { ProjectForm } from "@/features/projects/components/project-form";
 // import ProjectForm from "@/components/ProjectForm";
+import { ProjectForm } from "@/features/projects/components/project-form";
 
 const CreateProject = async () => {
   // const session = await getCurrentUser();

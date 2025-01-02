@@ -24,6 +24,7 @@ export interface ProjectInterface {
       email: string;
       avatarUrl: string;
       id: string;
+      userId: string;
     };
 }
 
@@ -35,6 +36,7 @@ export interface UserProfile {
     avatarUrl: string;
     githubUrl: string | null;
     linkedinUrl: string | null;
+    userId: string;
     projects: {
       edges: { node: ProjectInterface }[];
       pageInfo: {

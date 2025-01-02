@@ -1,9 +1,11 @@
 "use client";
 
-import { useDetailProject } from "@/features/projects/hooks/use-detail-project";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
+import { useDetailProject } from "@/features/projects/hooks/use-detail-project";
+import { useDetailProfile } from "@/features/profiles/hooks/use-detail-profile";
 
 type Props = {
     id: string;
@@ -18,7 +20,8 @@ type Props = {
 const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
     const [randomLikes, setRandomLikes] = useState(0);
     const [randomViews, setRandomViews] = useState('');
-    const { onOpen } = useDetailProject()
+    const { onOpen: onOpenProject } = useDetailProject()
+    const { onOpen: onOpenProfile } = useDetailProfile();
 
     useEffect(() => {
         setRandomLikes(Math.floor(Math.random() * 10000))
@@ -28,7 +31,7 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
     return (
         <div className="flexCenter flex-col rounded-2xl drop-shadow-card">
             {/* <Link href={`/project/${id}`} className="flexCenter group relative w-full h-full"> */}
-            <a onClick={() => onOpen(id)} className="flexCenter group relative w-full h-full cursor-pointer">
+            <a onClick={() => onOpenProject(id)} className="flexCenter group relative w-full h-full cursor-pointer">
                 <Image
                     src={image}
                     width={414}
@@ -44,7 +47,8 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
             {/* </Link> */}
 
             <div className="flexBetween w-full px-2 mt-3 font-semibold text-sm">
-                <Link href={`/profile/${userId}`}>
+                <a onClick={() => onOpenProfile(userId)} className="cursor-pointer">
+                {/* <Link href={`/profile/${userId}`}> */}
                         <div className="flexCenter gap-2">
                             <Image
                                 src={avatarUrl}
@@ -55,7 +59,8 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
                             />
                             <p>{name}</p>
                         </div>               
-                </Link>
+                {/* </Link> */}
+                </a>
 
                 <div className="flexCenter gap-3">
                     <div className="flexCenter gap-2">
