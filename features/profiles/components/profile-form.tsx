@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
+import { useCreateProfile } from '@/features/profiles/api/use-create-profile';
 import { useEditProfile } from '@/features/profiles/api/use-edit-profile';
 
 const formSchema = z.object({
@@ -35,10 +36,14 @@ export type FormValues = z.infer<typeof formSchema>
 interface ProfileFormProps {
   initialData: Profile | null;
   // categories: Category[];
+  onClose: () => void,
+  userId: string,
 };
 
 export const ProfileForm = ({ 
-  initialData
+  initialData,
+  onClose,
+  userId,
 }: ProfileFormProps) => {
   const router = useRouter()
 
@@ -64,6 +69,7 @@ export const ProfileForm = ({
     ...initialData,
   //   price: parseFloat(String(initialData?.price)),
   } : {
+    id: '',
     name: '',
     email: '',
     avatarUrl: '',
@@ -77,15 +83,24 @@ export const ProfileForm = ({
     defaultValues
   });
   
-  const mutation = useEditProfile()
+  const profileMutation = useEditProfile(userId);
+  const mutation = useCreateProfile()
   
   const onSubmit = async (data: FormValues) => {
     const values = {
       ...data,
     }
-    mutation.mutate(values);
     try {
       setLoading(true);
+      if (initialData) {
+        profileMutation.mutate(values, {
+          onSuccess: () => {
+            onClose();
+          }
+        });
+      } else {
+        mutation.mutate(values);
+      }
     } catch (error: any) {
       toast.error('Something went wrong.');
     } finally {
@@ -95,7 +110,11 @@ export const ProfileForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flexStart form" style={{ paddingTop: '1rem' }}>
+      <form 
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="space-y-8 w-full flexStart form" 
+        // style={{ paddingTop: '1rem' }}
+      >
         <FormField
           control={form.control}
           name="name"
@@ -188,5 +207,3 @@ export const ProfileForm = ({
     </Form>
   )
 }
-
-export default ProfileForm

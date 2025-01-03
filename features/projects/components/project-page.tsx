@@ -25,7 +25,7 @@ const ProjectPage = () => {
   const params = useSearchParams();
   const category = params.get("category") || "";
 
-  const projectsQuery = useGetProjects();
+  const projectsQuery = useGetProjects(category);
 
   const projectsToDisplay = (projectsQuery.data ?? []).map((item: any) => ({
     node: {

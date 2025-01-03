@@ -4,13 +4,17 @@ import { useCallback, useRef, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function Modal({ children }: { children: ReactNode }) {
+export default function Modal({ children, onClose }: { children: ReactNode, onClose?: () => void }) {
     const overlay = useRef<HTMLDivElement>(null);
     const wrapper = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    const onDismiss = useCallback(() => {        
+    const onDismiss = useCallback(() => {   
+      if (onClose) {
+        onClose()
+      } else {
         router.push("/");
+      }
     }, [router]);
 
     const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {

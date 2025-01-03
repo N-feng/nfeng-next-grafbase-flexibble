@@ -30,8 +30,8 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
 
     return (
         <div className="flexCenter flex-col rounded-2xl drop-shadow-card">
-            {/* <Link href={`/project/${id}`} className="flexCenter group relative w-full h-full"> */}
-            <a onClick={() => onOpenProject(id)} className="flexCenter group relative w-full h-full cursor-pointer">
+            <Link href={`/project/${id}`} className="flexCenter group relative w-full h-full">
+            {/* <a onClick={() => onOpenProject(id)} className="flexCenter group relative w-full h-full cursor-pointer"> */}
                 <Image
                     src={image}
                     width={414}
@@ -43,12 +43,12 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
                 <div className="hidden group-hover:flex profile_card-title">
                     <p className="w-full">{title}</p>
                 </div>
-            </a>
-            {/* </Link> */}
+            {/* </a> */}
+            </Link>
 
             <div className="flexBetween w-full px-2 mt-3 font-semibold text-sm">
-                <a onClick={() => onOpenProfile(userId)} className="cursor-pointer">
-                {/* <Link href={`/profile/${userId}`}> */}
+                {/* <a onClick={() => onOpenProfile(userId)} className="cursor-pointer"> */}
+                <Link href={`/profile/${userId}`}>
                         <div className="flexCenter gap-2">
                             <Image
                                 src={avatarUrl}
@@ -59,8 +59,8 @@ const ProjectCard = ({ id, image, title, name, avatarUrl, userId }: Props) => {
                             />
                             <p>{name}</p>
                         </div>               
-                {/* </Link> */}
-                </a>
+                </Link>
+                {/* </a> */}
 
                 <div className="flexCenter gap-3">
                     <div className="flexCenter gap-2">

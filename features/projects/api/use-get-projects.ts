@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import axios from "axios";
 
-export const useGetProjects = () => {
-  const params = useSearchParams();
+export const useGetProjects = (category?: string) => {
+  // const params = useSearchParams();
 
-  const category = params.get("category") || "";
+  // const category = params.get("category") || "";
   // console.log('category: ', category);
 
   const query = useQuery({

@@ -1,16 +1,17 @@
 "use client";
 
-import { redirect } from "next/navigation";
-
-import { getCurrentUser } from "@/lib/session";
 import Modal from "@/components/Modal";
 // import ProjectForm from "@/components/ProjectForm";
+// import { getCurrentUser } from "@/lib/session";
+// import { getProjectDetails } from "@/lib/actions";
+// import { ProjectInterface } from "@/common.types";
+
 import { useGetProject } from "@/features/projects/api/use-get-project";
 import { Loader2 } from "lucide-react";
 import { ProjectForm } from "@/features/projects/components/project-form";
 
-const CreateProject = () => {
-  const projectQuery = useGetProject()
+const EditProject = ({ params: { projectId } }: { params: { projectId: string } }) => {
+  const projectQuery = useGetProject(projectId)
   const defaultValues = projectQuery.data
       ? projectQuery.data
       : null;
@@ -32,9 +33,13 @@ const CreateProject = () => {
           initialData={defaultValues}
           // session={session} 
         />
+        // <ProjectForm 
+        //   type="edit"
+        //   project={defaultValues}
+        // />
       )}
     </Modal>
   );
 };
 
-export default CreateProject;
+export default EditProject;

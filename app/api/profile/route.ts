@@ -9,10 +9,8 @@ export async function POST(
 ) {
   try {
     const { userId } = auth();
-    console.log('userId: ', userId);
 
     const body = await req.json();
-    console.log('body: ', body);
 
     const { 
       name,

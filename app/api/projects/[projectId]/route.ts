@@ -110,13 +110,11 @@ export async function DELETE(
   }
 };
 
-
 export async function PATCH(
   req: Request,
   { params }: { params: { projectId: string } }
 ) {
   try {
-    console.log('params: ', params);
     const { userId } = auth();
 
     if (!userId) {

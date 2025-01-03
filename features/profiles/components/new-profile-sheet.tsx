@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import ProfileForm from "@/features/profiles/components/profile-form";
+import { ProfileForm } from "@/features/profiles/components/profile-form";
 
 import { useNewProfile } from "@/features/profiles/hooks/use-new-profile";
 
@@ -22,6 +22,8 @@ export const NewProfileSheet = () => {
 
         <ProfileForm
           initialData={null}
+          onClose={onClose}
+          userId=""
         />
       </SheetContent>
     </Sheet>

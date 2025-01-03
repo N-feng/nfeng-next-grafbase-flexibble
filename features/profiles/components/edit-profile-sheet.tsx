@@ -7,7 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import ProfileForm from "@/features/profiles/components/profile-form";
+import { ProfileForm } from "@/features/profiles/components/profile-form";
 
 import { useEditProfile } from "@/features/profiles/hooks/use-edit-profile";
 import { useGetProfile } from "@/features/profiles/api/use-get-profile";
@@ -35,9 +35,7 @@ export const EditProfileSheet = () => {
               <Loader2 className="size-4 animate-spin text-muted-foreground" />
             </div>
           ) : (
-            <ProfileForm
-              initialData={defaultValues}
-            />
+            <ProfileForm initialData={defaultValues} />
           )}
       </SheetContent>
     </Sheet>

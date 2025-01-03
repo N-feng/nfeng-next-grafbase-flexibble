@@ -93,11 +93,11 @@ const Navbar = () => {
 
         {role === 'admin' && (
           <>
-            {/* <Link href="/create-project"> */}
-            <a onClick={handleClick}>
+            <Link href="/create-project">
+            {/* <a onClick={handleClick}> */}
               <Button title='Share work' />
-            </a>
-            {/* </Link> */}
+            {/* </a> */}
+            </Link>
           </>
         )}
       </div>

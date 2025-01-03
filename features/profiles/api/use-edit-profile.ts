@@ -6,11 +6,11 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { FormValues } from "@/features/profiles/components/profile-form";
 
-export const useEditProfile = () => {
+export const useEditProfile = (profileId: string) => {
   const queryClient = useQueryClient();
   const params = useParams();
   
-  const storeId = params.storeId;
+  // const profileId = params.profileId;
 
   const mutation = useMutation<any, Error, FormValues>({
     mutationFn: async (json) => {
@@ -19,13 +19,14 @@ export const useEditProfile = () => {
       //   param: { id },
       //   json,
       // });
-      const {data} = await axios.post(`/api/profile/`, json);
+      const {data} = await axios.patch(`/api/profile/${profileId}`, json);
       console.log('update profile data: ', data);
       return data;
     },
     onSuccess: () => {
       toast.success("Profile updated");
-      // queryClient.invalidateQueries({ queryKey: ["category", id] });
+      console.log('params.userId: ', params.userId);
+      queryClient.invalidateQueries({ queryKey: ["profile", params.userId] });
       // queryClient.invalidateQueries({ queryKey: ["categories"] });
       // queryClient.invalidateQueries({ queryKey: ["transactions"] });
       // queryClient.invalidateQueries({ queryKey: ["summary"] });

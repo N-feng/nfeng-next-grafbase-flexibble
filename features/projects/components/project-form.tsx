@@ -113,7 +113,11 @@ export const ProjectForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full flexStart form" style={{ paddingTop: '1rem' }}>
+      <form 
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="space-y-8 w-full flexStart form" 
+        // style={{ paddingTop: '1rem' }}
+      >
         <FormField
           control={form.control}
           name="title"

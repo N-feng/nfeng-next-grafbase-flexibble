@@ -20,12 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang='en'>
         <body suppressHydrationWarning>
           <QueryProvider>
-            <Navbar />
-            <main>
+            {/* <Navbar />
+            <main> */}
               <SheetProvider />
               <ToastProvider />
               {children}
-            </main>
+            {/* </main> */}
             {/* <Toaster /> */}
             <Footer />
           </QueryProvider>
