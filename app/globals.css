@@ -14,6 +14,10 @@ body {
   font-family: Inter;
 }
 
+img {
+  height: revert-layer;
+}
+
 .flexCenter {
   @apply flex justify-center items-center;
 }

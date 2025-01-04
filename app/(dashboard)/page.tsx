@@ -5,13 +5,15 @@ import Categories from "@/components/Categories";
 import LoadMore from "@/components/LoadMore";
 import ProjectCard from "@/components/ProjectCard";
 import { fetchAllProjects } from "@/lib/actions";
+
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { Loader2 } from "lucide-react";
-import ProjectPage from "@/features/projects/components/project-page";
+import Pagination from "@/components/Pagination";
 
 type SearchParams = {
   category?: string | undefined;
   endcursor?: string | null;
+  page?: string | undefined;
 }
 
 type Props = {
@@ -34,17 +36,21 @@ type ProjectSearch = {
 // export const dynamicParams = true;
 // export const revalidate = 0;
 
-const Home = ({ searchParams: { category, endcursor } }: Props) => {
+const Home = ({ searchParams: { category, endcursor, page } }: Props) => {
   // const data = await fetchAllProjects(category, endcursor) as ProjectSearch
-  const projectsQuery = useGetProjects(category || '');
+  const p = page ? parseInt(page) : 1;
+  const projectsQuery = useGetProjects(p);
 
   // const projectsToDisplay = data?.projectSearch?.edges || [];
-  const projectsToDisplay = (projectsQuery.data ?? []).map((item: any) => ({
-    node: {
-      ...item,
-      image: item.images[0].url,
-    }
-  }))
+  const projectsToDisplay = projectsQuery.data?.projectSearch?.edges || [];
+  // const data = projectsQuery?.data;
+  const count = projectsQuery?.data?.projectSearch?.count;
+  // const projectsToDisplay = (projectsQuery.data ?? []).map((item: any) => ({
+  //   node: {
+  //     ...item,
+  //     image: item.images[0].url,
+  //   }
+  // }))
 
   if (projectsQuery.isLoading) { 
     return (
@@ -97,7 +103,7 @@ const Home = ({ searchParams: { category, endcursor } }: Props) => {
         hasPreviousPage={data?.projectSearch?.pageInfo?.hasPreviousPage} 
         hasNextPage={data?.projectSearch?.pageInfo.hasNextPage}
       /> */}
-      {/* <ProjectPage /> */}
+      <Pagination page={p} count={count} />
     </section>
   )
 };

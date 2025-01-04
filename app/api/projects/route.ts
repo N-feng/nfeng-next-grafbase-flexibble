@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
 import prismadb from '@/lib/prismadb';
+import { Prisma } from '@prisma/client';
+import { ITEM_PER_PAGE } from '@/lib/settings';
 
 export async function POST(
   req: Request,
@@ -85,29 +87,62 @@ export async function GET(
   },
 ) {
   try {
-    const { userId } = auth();
+    // const { userId } = auth();
+    
     const { searchParams } = new URL(req.url)
     const category = searchParams.get('category') || undefined;
+    const userId = searchParams.get('userId') || undefined;
+    const page = parseInt(searchParams.get('page') || '1') || 1;
+    console.log('page: ', page);
+
+    const query: Prisma.ProjectWhereInput = {
+      category: category,
+      userId: userId,
+    }
 
     // if (!params.storeId) {
     //   return new NextResponse("Store id is required", { status: 400 });
     // }
 
-    const projects = await prismadb.project.findMany({
-      where: {
-        // userId: params.storeId,
-        category: category,
-      },
-      include: {
-        images: true,
-        createdBy: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
+    const [data, count] = await prismadb.$transaction([
+      prismadb.project.findMany({
+        where: {
+          // userId: params.userId,
+          // userId: undefined,
+          category: category,
+          userId: userId
+        },
+        include: {
+          images: true,
+          createdBy: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: ITEM_PER_PAGE,
+        skip: ITEM_PER_PAGE * (page - 1),
+      }),
+      prismadb.project.count({ where: query }),
+    ]);
+  
+    return NextResponse.json({
+      projectSearch: {
+        edges: data.map((item: any) => ({
+          node: {
+            ...item,
+            image: item.images[0].url,
+          }
+        })),
+        pageInfo: {
+          hasPreviousPage: page > 1,
+          // hasNextPage: count > ITEM_PER_PAGE,
+          hasNextPage: true,
+          startCursor: 'fake',
+          endCursor: 'fake',
+        },
+        count: count,
       }
     });
-  
-    return NextResponse.json(projects);
   } catch (error) {
     console.log('[PROJECTS_GET]', error);
     return new NextResponse("Internal error", { status: 500 });

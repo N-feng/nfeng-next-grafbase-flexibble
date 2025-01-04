@@ -6,12 +6,9 @@ import prismadb from "@/lib/prismadb";
 export async function GET(
   req: Request,
   { params }: { 
-    params: { 
-      categoryId: string,
-      sizeId: string,
-      kitchenId: string,
-      cuisineId: string,
-      projectId: string, 
+    params: {
+      projectId: string,
+      userId: string,
     } 
   }
 ) {
@@ -27,6 +24,7 @@ export async function GET(
         // kitchenId: params.kitchenId,
         // cuisineId: params.cuisineId,
         id: params.projectId,
+        userId: params.userId,
       },
       include: {
         images: true,
