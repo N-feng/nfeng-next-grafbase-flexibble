@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react";
 import { ProjectForm } from "@/features/projects/components/project-form";
 
 const EditProject = ({ params: { projectId } }: { params: { projectId: string } }) => {
-  const projectQuery = useGetProject(projectId)
+  const projectQuery = useGetProject()
   const defaultValues = projectQuery.data
       ? projectQuery.data
       : null;
