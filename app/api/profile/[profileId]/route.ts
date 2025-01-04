@@ -61,7 +61,7 @@ export async function DELETE(
       return new NextResponse("Product id is required", { status: 400 });
     }
 
-    const storeByUserId = await prismadb.store.findFirst({
+    const storeByUserId = await prismadb.profile.findFirst({
       where: {
         id: params.storeId,
         userId
@@ -72,32 +72,32 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
-    await prismadb.product.update({
+    await prismadb.profile.update({
       where: {
         id: params.productId
       },
       data: {
         // colorId,
         // sizeId,
-        images: {
-          deleteMany: {},
-        },
-        attribute: {
-          deleteMany: {},
-        },
-        vitamins: {
-          deleteMany: {},
-        },
-        minerals: {
-          deleteMany: {},
-        },
+        // images: {
+        //   deleteMany: {},
+        // },
+        // attribute: {
+        //   deleteMany: {},
+        // },
+        // vitamins: {
+        //   deleteMany: {},
+        // },
+        // minerals: {
+        //   deleteMany: {},
+        // },
         // orderItems: {
         //   deleteMany: {},
         // },
       },
     });
 
-    const product = await prismadb.product.delete({
+    const product = await prismadb.profile.delete({
       where: {
         id: params.productId
       },
