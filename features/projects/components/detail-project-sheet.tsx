@@ -21,7 +21,7 @@ export const DetailProjectSheet = () => {
   const { id, isOpen, onClose } = useDetailProject();
   const { onOpen } = useDetailProfile();
 
-  const projectQuery = useGetProject(id)
+  const projectQuery = useGetProject()
   const defaultValues = projectQuery.data
       ? projectQuery.data
       : null;
