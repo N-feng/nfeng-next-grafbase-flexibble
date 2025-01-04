@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 
 import prismadb from '@/lib/prismadb';
-import { Prisma } from '@prisma/client';
 import { ITEM_PER_PAGE } from '@/lib/settings';
 
 export async function POST(
@@ -95,11 +94,6 @@ export async function GET(
     const page = parseInt(searchParams.get('page') || '1') || 1;
     console.log('page: ', page);
 
-    const query: Prisma.ProjectWhereInput = {
-      category: category,
-      userId: userId,
-    }
-
     // if (!params.storeId) {
     //   return new NextResponse("Store id is required", { status: 400 });
     // }
@@ -122,7 +116,14 @@ export async function GET(
         take: ITEM_PER_PAGE,
         skip: ITEM_PER_PAGE * (page - 1),
       }),
-      prismadb.project.count({ where: query }),
+      prismadb.project.count({ 
+        where: {
+          // userId: params.userId,
+          // userId: undefined,
+          category: category,
+          userId: userId
+        } 
+      }),
     ]);
   
     return NextResponse.json({
