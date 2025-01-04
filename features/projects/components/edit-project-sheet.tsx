@@ -15,7 +15,7 @@ import { ProjectForm } from "@/features/projects/components/project-form";
 export const EditProjectSheet = () => {
   const { id, isOpen, onClose } = useEditProject();
 
-  const projectQuery = useGetProject(id)
+  const projectQuery = useGetProject()
   const defaultValues = projectQuery.data
       ? projectQuery.data
       : null;
