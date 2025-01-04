@@ -35,7 +35,11 @@ export const EditProfileSheet = () => {
               <Loader2 className="size-4 animate-spin text-muted-foreground" />
             </div>
           ) : (
-            <ProfileForm initialData={defaultValues} />
+            <ProfileForm 
+              initialData={defaultValues} 
+              onClose={onClose}
+              userId=""
+            />
           )}
       </SheetContent>
     </Sheet>
