@@ -96,7 +96,7 @@ const Project = (
             </div>
         )} */}
 
-        {userId === projectDetails?.userId && (
+        {userId === projectDetails?.createdBy?.clerkId && (
           <div className="flex justify-end items-center gap-2">
             <ProjectActions projectId={projectDetails?.id} />
           </div>
