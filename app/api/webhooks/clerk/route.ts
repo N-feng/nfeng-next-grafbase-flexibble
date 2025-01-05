@@ -77,6 +77,7 @@ export async function POST(req: Request) {
         ...user,
         firstName: user.firstName || '',
         lastName: user.lastName || '',
+        username: user.username || '',
       }
     })
 
@@ -123,6 +124,7 @@ export async function POST(req: Request) {
         ...user,
         firstName: user.firstName || '',
         lastName: user.lastName || '',
+        username: user.username || '',
       }
     });
 
