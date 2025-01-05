@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/session";
 import Modal from "@/components/Modal";
@@ -10,6 +10,12 @@ const CreateProject = async () => {
 
   // if (!session?.user) redirect("/")
 
+  const router = useRouter();
+  
+  const onCloseChange = () => {
+    router.push(`/`)
+  }
+
   return (
     <Modal>
       <h3 className="modal-head-text">Create a New Project</h3>
@@ -17,6 +23,7 @@ const CreateProject = async () => {
       <ProjectForm 
         initialData={null}
         // session={session} 
+        onClose={onCloseChange}
       />
     </Modal>
   );

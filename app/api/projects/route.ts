@@ -108,7 +108,7 @@ export async function GET(
         },
         include: {
           images: true,
-          // createdBy: true,
+          createdBy: true,
         },
         orderBy: {
           createdAt: 'desc',

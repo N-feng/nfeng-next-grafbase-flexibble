@@ -20,6 +20,13 @@ const Project = (
 ) => {
   // const session = await getCurrentUser()
   // const result = await getProjectDetails(id) as { project?: ProjectInterface}
+
+  // if (!result?.project) return (
+  //     <p className="no-result-text">Failed to fetch project info</p>
+  // )
+
+  // const projectDetails = result?.project
+
   const projectQuery = useGetProject()
   const defaultValues = projectQuery.data
       ? projectQuery.data
@@ -29,11 +36,13 @@ const Project = (
   
   const isLoading = projectQuery.isLoading;
 
-  const projectDetails = defaultValues
-  // const projectDetails = result?.project
-
-  // const renderLink = () => `/profile/${projectDetails?.createdBy?.id}`
-  const renderLink = () => `/profile/${projectDetails?.createdBy?.userId}`
+  const projectDetails = {
+    ...defaultValues,
+    createdBy: {
+      ...defaultValues?.createdBy,
+      avatarUrl: defaultValues?.createdBy?.photo,
+    }
+  }
 
   if (isLoading) return (
     <Modal>
@@ -43,14 +52,13 @@ const Project = (
     </Modal>
   )
 
-  // if (!result?.project) return (
-  //     <p className="no-result-text">Failed to fetch project info</p>
-  // )
   if (!defaultValues) return (
     <Modal>
       <p className="no-result-text">Failed to fetch project info</p>
     </Modal>
   )
+
+  const renderLink = () => `/profile/${projectDetails?.createdBy?.id}`
 
   return (
     <Modal>

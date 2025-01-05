@@ -83,18 +83,18 @@ const Home = ({ searchParams: { category, endcursor, page } }: Props) => {
       <Categories />
 
       <section className="projects-grid">
-        {/* {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
+        {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
           <ProjectCard
             key={`${node?.id}`}
             id={node?.id}
             image={node?.image}
             title={node?.title}
             name={node?.createdBy.name}
-            avatarUrl={node?.createdBy.avatarUrl}
-            // userId={node?.createdBy.id}
-            userId={node?.createdBy.userId}
+            // avatarUrl={node?.createdBy.avatarUrl}
+            avatarUrl={node?.createdBy.photo}
+            userId={node?.createdBy.id}
           />
-        ))} */}
+        ))}
       </section>
 
       {/* <LoadMore 

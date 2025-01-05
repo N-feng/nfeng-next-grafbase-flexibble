@@ -62,7 +62,7 @@ img {
 }
 
 .user-info {
-  @apply flex flex-wrap whitespace-nowrap text-sm font-normal gap-2 w-full;
+  @apply flex flex-wrap whitespace-nowrap text-sm font-normal gap-2 w-full items-center;
 }
 
 /* Home */
