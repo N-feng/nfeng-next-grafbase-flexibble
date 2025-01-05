@@ -25,6 +25,7 @@ export const NewProjectSheet = () => {
 
         <ProjectForm
           initialData={null}
+          onClose={() => {}}
         />
       </SheetContent>
     </Sheet>

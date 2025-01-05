@@ -37,6 +37,7 @@ export const EditProjectSheet = () => {
           ) : (
             <ProjectForm
               initialData={defaultValues}
+              onClose={() => {}}
             />
           )}
       </SheetContent>
