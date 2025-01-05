@@ -46,10 +46,12 @@ interface ProjectFormProps {
     images: Image[]
   } | null;
   // categories: Category[];
+  onClose: () => void,
 };
 
 export const ProjectForm = ({ 
-  initialData
+  initialData,
+  onClose,
 }: ProjectFormProps) => {
   const router = useRouter()
 
@@ -100,7 +102,11 @@ export const ProjectForm = ({
     try {
       setLoading(true);
       if (initialData) {
-        projectMutation.mutate(values);
+        projectMutation.mutate(values, {
+          onSuccess: () => {
+            onClose();
+          }
+        });
       } else {
         mutation.mutate(values);
       }
