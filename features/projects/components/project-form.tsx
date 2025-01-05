@@ -108,7 +108,12 @@ export const ProjectForm = ({
           }
         });
       } else {
-        mutation.mutate(values);
+        mutation.mutate(values, {
+          onSuccess: (data) => {
+            console.log('data: ', data);
+            onClose();
+          }
+        });
       }
     } catch (error: any) {
       toast.error('Something went wrong.');

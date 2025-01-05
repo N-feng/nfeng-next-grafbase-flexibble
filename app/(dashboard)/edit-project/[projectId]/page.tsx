@@ -1,5 +1,7 @@
 "use client";
 
+import { redirect, useRouter } from "next/navigation";
+
 import Modal from "@/components/Modal";
 // import ProjectForm from "@/components/ProjectForm";
 // import { getCurrentUser } from "@/lib/session";
@@ -21,6 +23,12 @@ const EditProject = ({ params: { projectId } }: { params: { projectId: string } 
 
   // if (!session?.user) redirect("/")
 
+  const router = useRouter();
+
+  const onCloseChange = () => {
+    router.push(`/project/${projectId}`)
+  }
+
   return (
     <Modal>
       <h3 className="modal-head-text">Edit Project</h3>
@@ -31,6 +39,7 @@ const EditProject = ({ params: { projectId } }: { params: { projectId: string } 
       ) : (
         <ProjectForm 
           initialData={defaultValues}
+          onClose={onCloseChange}
           // session={session} 
         />
         // <ProjectForm 
