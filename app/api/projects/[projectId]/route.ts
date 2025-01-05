@@ -182,7 +182,7 @@ export async function PATCH(
         // colorId,
         // sizeId,
         category,
-        profileId: profileByUserId.id,
+        // profileId: profileByUserId.id,
         images: {
           deleteMany: {},
         },

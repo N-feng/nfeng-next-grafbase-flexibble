@@ -14,6 +14,27 @@ datasource db {
   relationMode = "prisma"
 }
 
+model User {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId         String      
+  email           String
+  username        String    
+  // avatarUrl       String
+  photo           String
+  // description     String
+  firstName       String
+  lastName        String
+  planId          Int         @default(1)
+  creditBalance   Int         @default(10)
+
+  // githubUrl       String
+  // linkedinUrl     String
+  // userId          String
+  projects        Project[]   @relation("UserToProject")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
 model Profile {
   id              String      @id @default(auto()) @map("_id") @db.ObjectId
   name            String      
@@ -23,16 +44,18 @@ model Profile {
   githubUrl       String
   linkedinUrl     String
   userId          String
-  projects        Project[]   @relation("UserToProject")
+  // projects        Project[]   @relation("UserToProject")
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 }
 
 model Project {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String        
-  profileId     String        @db.ObjectId // Foreign Key to Store
-  createdBy     Profile       @relation("UserToProject", fields: [profileId], references: [id])    
+  // userId        String        
+  // profileId     String        @db.ObjectId // Foreign Key to Store
+  // createdBy     Profile       @relation("UserToProject", fields: [profileId], references: [id])  
+  userId        String        @db.ObjectId // Foreign Key to Store
+  createdBy     User          @relation("UserToProject", fields: [userId], references: [id])    
   title         String        
   description   String        
   // image         String
@@ -43,7 +66,8 @@ model Project {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  @@index([profileId])
+  // @@index([profileId])
+  @@index([userId])
 }
 
 model Image {

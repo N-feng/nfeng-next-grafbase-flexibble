@@ -24,19 +24,19 @@ export async function GET(
         // cuisineId: params.cuisineId,
         userId: params.profileId,
       },
-      include: {
+      // include: {
         // images: true,
         // category: true,
         // size: true,
         // kitchen: true,
         // cuisine: true,
         // color: true,
-        projects: {
-          include: {
-            images: true,
-          }
-        },
-      }
+        // projects: {
+        //   include: {
+        //     images: true,
+        //   }
+        // },
+      // }
     });
   
     return NextResponse.json(profile);

@@ -54,7 +54,7 @@ export async function POST(
         githubUrl,
         category,
         userId,
-        profileId: profileByUserId.id,
+        // profileId: profileByUserId.id,
         images: {
           createMany: {
             data: [
@@ -104,11 +104,11 @@ export async function GET(
           // userId: params.userId,
           // userId: undefined,
           category: category,
-          userId: userId
+          // userId: userId
         },
         include: {
           images: true,
-          createdBy: true,
+          // createdBy: true,
         },
         orderBy: {
           createdAt: 'desc',
@@ -121,7 +121,7 @@ export async function GET(
           // userId: params.userId,
           // userId: undefined,
           category: category,
-          userId: userId
+          // userId: userId
         } 
       }),
     ]);

@@ -83,7 +83,7 @@ const Home = ({ searchParams: { category, endcursor, page } }: Props) => {
       <Categories />
 
       <section className="projects-grid">
-        {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
+        {/* {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
           <ProjectCard
             key={`${node?.id}`}
             id={node?.id}
@@ -94,7 +94,7 @@ const Home = ({ searchParams: { category, endcursor, page } }: Props) => {
             // userId={node?.createdBy.id}
             userId={node?.createdBy.userId}
           />
-        ))}
+        ))} */}
       </section>
 
       {/* <LoadMore 
