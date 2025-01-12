@@ -162,13 +162,13 @@ export async function PATCH(
     //   return new NextResponse("Size id is required", { status: 400 });
     // }
 
-    const profileByUserId = await prismadb.profile.findFirst({
+    const userByClerkId = await prismadb.user.findFirst({
       where: {
-        userId
+        clerkId: userId
       }
     });
 
-    if (!profileByUserId) {
+    if (!userByClerkId) {
       return new NextResponse("Unauthorized", { status: 405 });
     }
 
